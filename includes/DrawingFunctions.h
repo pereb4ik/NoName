@@ -1,4 +1,4 @@
-#include "Objects\MyObject.h"
+#include "Objects/MyObject.h"
 
 Point cur;
 

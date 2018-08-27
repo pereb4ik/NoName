@@ -56,7 +56,7 @@ public:
         return verts.size();
     }
 
-    inline Point& MyPolygon::operator [](int i){
+    inline Point& operator [](int i){
         //if (i < 0 || i >= size()) return Point(inf, inf);
         //return verts[(i % this->size() + this->size()) % this->size()];
         return verts[(i % this->size() + this->size()) % this->size()];

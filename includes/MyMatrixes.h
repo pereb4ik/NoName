@@ -1,4 +1,4 @@
-#include "MyGeometry\MyPoint.h"
+#include "MyGeometry/MyPoint.h"
 
 
 class Matrix{
@@ -132,5 +132,6 @@ Point apply_transformation(const Point &p, Matrix *m){
     vector < double > tmp(3, 1);
     tmp[0] = p.x;
     tmp[1] = p.y;
-    return (Matrix(tmp) * (*m)).get_as_point();
+    Matrix tmpm = Matrix(tmp);
+    return (tmpm * (*m)).get_as_point();
 }

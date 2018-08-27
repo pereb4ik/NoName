@@ -1,4 +1,4 @@
-#include "..\MyGeometry\MyGeometry.h"
+#include "../MyGeometry/MyGeometry.h"
 
 class Object{
 public:
