@@ -31,10 +31,8 @@ void every_frame(void) {
 }
 
 void main_draw(){
-    glClearColor(0, 0, 0, 255); //Изчистваме екрана в черно
+    glClearColor(0, 0, 0, 255);
     glClear(GL_COLOR_BUFFER_BIT);
-    // обнулить трансформацию
-    //glLoadIdentity();
 
     for (int i = 0; i < objs->size(); i++){
         if ((*objs)[i]->need_draw){
