@@ -12,20 +12,6 @@ void changeSize(int w, int h) {
     glLoadIdentity();
     glOrtho(0, w, 0, h, -1, 1);
     glMatrixMode(GL_MODELVIEW);
-    // предотвращение деления на ноль
-    /*if (h == 0)
-        h = 1;
-    float ratio =  w * 1.0 / h;
-    // используем матрицу проекции
-    glMatrixMode(GL_PROJECTION);
-    // обнуляем матрицу
-    glLoadIdentity();
-    // установить параметры вьюпорта
-    glViewport(0, 0, w, h);
-    // установить корректную перспективу
-    gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-    // вернуться к матрице проекции
-    glMatrixMode(GL_MODELVIEW);*/
 }
 
 void specalKeysCheck(){
@@ -201,42 +187,4 @@ void mouseButton(int button, int state, int x, int y) {
     if (button == GLUT_MIDDLE_BUTTON) {
         mouseWheel = state != GLUT_UP;
     }
-}
-
-
-
-
-#define COLUMNS 40
-#define ROWS 40
-
-void DrawGrid();
-void reshape_callback(int w, int h){    // Инициализираме прозореца на екрана
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, COLUMNS, 0, ROWS, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-}
-void display_callback(){
-    cout << "draw";
-    DrawGrid();   //Извикваме функция за изчертаване мрежа в прозореца
-    glutSwapBuffers();  // Визуализиране на начертаното в буфера на екрана
-}
-
-void DrawGrid(){
-    int x, y;
-    glClearColor(0, 0, 0, 255); //Изчистваме екрана в черно
-    glClear(GL_COLOR_BUFFER_BIT); //Изчистваме буфера за цвета
-    glColor3ub(255, 255, 255); //Определяме цвета за рисуване в RGB стандарт
-    glLineWidth(1); //Определяме дебелината на линията в пиксели
-    glBegin(GL_LINES); // Рисуваме линии. Начало
-    ///========
-    for (x = 0; x < COLUMNS; x++){
-        for (y = 0; y < ROWS; y++){
-            {
-                                
-            } 
-        }
-    }
-    glEnd(); 
 }
