@@ -1,4 +1,4 @@
-#include "includes.h";
+#include "includes.h"
 
 double first_time = 0, global_time = 0, last_time = 0, delta_time = 0, mousex = 0, mousey = 0;
 bool mouseLeft = false, mouseRight = false, mouseWheel = false;

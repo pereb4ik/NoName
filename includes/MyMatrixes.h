@@ -49,7 +49,7 @@ public:
     }
 };
 
-Matrix operator*(Matrix &m1, Matrix &m2) {
+Matrix operator * (Matrix m1, Matrix m2) {
     if (m1.m != m2.n) {
         return Matrix();
         cout << "ERROR, see: friend Matrix operator * (const Matrix &m1, const Matrix &m2) in MyMatrixes.h";
@@ -72,7 +72,7 @@ Matrix operator*(Matrix &m1, Matrix &m2) {
     return ans;
 }
 
-Matrix &operator*=(Matrix &a, Matrix &b) {
+Matrix &operator *= (Matrix a, Matrix b) {
     return a = a * b;
 }
 
@@ -128,10 +128,9 @@ Matrix get_hom_matr(const Point &p, const double &x) {
     return get_hom_matr(x, p);
 }
 
-Point apply_transformation(const Point &p, Matrix *m) {
-    vector<double> tmp(3, 1);
+Point apply_transformation(const Point &p, Matrix *m){
+    vector < double > tmp(3, 1);
     tmp[0] = p.x;
     tmp[1] = p.y;
-    Matrix tmpm = Matrix(tmp);
-    return (tmpm * (*m)).get_as_point();
+    return (Matrix(tmp) * (*m)).get_as_point();
 }

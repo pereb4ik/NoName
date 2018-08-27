@@ -11,15 +11,15 @@
 
     // without polygon
 
-        bool is_intersects(Point &p, Segment &s){
+        bool is_intersects(Point p, Segment s){
             return eq(Segment(s.b, p).len() + Segment(p, s.e).len(), s.len());
         }
 
-        bool is_intersects(Circle &c, Line &l){
+        bool is_intersects(Circle c, Line l){
             return ls(l.dist(c.p), c.r);
         }
 
-        bool is_intersects(Segment &s, Circle &c){
+        bool is_intersects(Segment s, Circle c){
             Point pr = Line(s).proj(c.p);
             if (is_intersects(pr, s)){
                 if (ls(Segment(pr, c.p).sqr_len(), sqr(c.r))){
@@ -42,7 +42,7 @@
             }
         }
         
-        bool is_intersects(Circle &c1, Circle &c2){
+        bool is_intersects(Circle c1, Circle c2){
             return lseq(
                         sqr(fabs(c1.r - c2.r)), 
                         Segment(c1.p, c2.p).sqr_len())
@@ -53,15 +53,15 @@
                    );
         }
 
-        bool is_intersects(Line &f, Line &s){
+        bool is_intersects(Line f, Line s){
             return !eq(0, f.v * s.v);
         }
 
-        bool is_intersects(Segment &s, Line &l){ // O(1)
+        bool is_intersects(Segment s, Line l){ // O(1)
             return !l.is_in_one_half_plane(s.b, s.e);
         }
 
-        bool is_intersects(Segment &f, Segment &s){ // O(1)
+        bool is_intersects(Segment f, Segment s){ // O(1)
             if (f.b == s.b || f.e == s.e || f.b == s.e || f.e == s.b) return false;
             return (is_intersects(s, Line(f))) && (is_intersects(f, Line(s)));
         }
@@ -72,7 +72,7 @@
     // with rectan
 
         template < class T >
-        bool is_intersects(T &r2, Rectan &r1){
+        bool is_intersects(T r2, Rectan r1){
             if (is_intersects(Segment(r1.getmi(), r1.geta()), r2)) return true;
             if (is_intersects(Segment(r1.geta(),  r1.getma()), r2)) return true;
             if (is_intersects(Segment(r1.getma(), r1.getb()), r2)) return true;
@@ -81,19 +81,19 @@
         }
 
         template < class T >
-        bool is_intersects(Rectan &r, T &x){
+        bool is_intersects(Rectan r, T x){
             return is_intersects(x, r);
         }
         
-        bool is_intersects(Rectan &r, Point &p){
+        bool is_intersects(Rectan r, Point p){
             return (ls(r.getmi().x, p.x) && ls(p.x, r.getma().x) && ls(r.getmi().y, p.y) && ls(p.y, r.getma().y));
         }
 
-        bool is_intersects(Point &p, Rectan &r){
+        bool is_intersects(Point p, Rectan r){
             return is_intersects(r, p);
         }
 
-        bool is_intersects(Rectan &r1, Rectan &r2){
+        bool is_intersects(Rectan r1, Rectan r2){
             if (is_intersects(Segment(r1.getmi(), r1.geta()), r2)) return true;
             if (is_intersects(Segment(r1.geta(),  r1.getma()), r2)) return true;
             if (is_intersects(Segment(r1.getma(), r1.getb()), r2)) return true;
@@ -107,7 +107,7 @@
     // with polygon
 
         template < class T >
-        bool is_intersects(T &x, MyPolygon &pol){
+        bool is_intersects(T x, MyPolygon pol){
             if (!is_intersects(pol.rct, x)) return false;
             for (int i = 0; i < pol.size(); i++){
                 if (is_intersects(Segment(pol.get(i), pol.get(i + 1)), x)) return true;
@@ -120,7 +120,7 @@
             return is_intersects(x, pol);
         }*/
 
-        bool is_intersects(MyPolygon &x, MyPolygon &pol){
+        bool is_intersects(MyPolygon x, MyPolygon pol){
             if (!is_intersects(pol.rct, x.rct)) return false;
             for (int i = 0; i < pol.size(); i++){
                 if (is_intersects(Segment(pol.get(i), pol.get(i + 1)), x)) return true;
@@ -130,7 +130,7 @@
 
     // with polygon
 
-    bool is_intersects(ComplexShape &cs1, ComplexShape &cs2){
+    bool is_intersects(ComplexShape cs1, ComplexShape cs2){
         for (int i = 0; i < cs1.pols.size(); i++){
             for (int j = 0; j < cs2.pols.size(); j++){
                 if (is_intersects(cs1.pols[i], cs2.pols[j])) return true;
@@ -167,7 +167,7 @@
 
 // is_intersects
 
-bool is_in(Point &p, MyPolygon &pol){
+bool is_in(Point p, MyPolygon pol){
     if (!is_intersects(pol.rct, p)) return false;
     bool ans = false;
     int n = pol.size();
@@ -183,26 +183,26 @@ bool is_in(Point &p, MyPolygon &pol){
     return ans;
 }
 
-bool is_in(MyPolygon &pol, Point &p){
+bool is_in(MyPolygon pol, Point p){
     return is_in(p, pol);
 }
 
 //get_intersection
 
-    Point get_intersection(Line &f, Line &s){
+    Point get_intersection(Line f, Line s){
         double b = (f.p * f.v + f.v * s.p) / (s.v * f.v);
         return f.p + f.v * b;
     }
 
-    Point get_intersection(Line &l, Segment &s){
+    Point get_intersection(Line l, Segment s){
         return get_intersection(l, Line(s));
     }
 
-    Point get_intersection(Segment &s, Line &l){
+    Point get_intersection(Segment s, Line l){
         return get_intersection(l, Line(s));
     }
 
-    Segment get_intersection(Segment &f, Segment &s){
+    Segment get_intersection(Segment f, Segment s){
         if (is_intersects(Line(f), Line(s))){
             return Segment(get_intersection(Line(f), Line(s)), get_intersection(Line(f), Line(s)));
         } else {
@@ -219,7 +219,7 @@ bool is_in(MyPolygon &pol, Point &p){
         }
     }
 
-    pair < Point, Point > get_intersection(Line &l, Circle &c){
+    pair < Point, Point > get_intersection(Line l, Circle c){
         Point pr = l.proj(c.p);
         Angle a = Angle().set_as_rad(acos(c.r / l.dist(c.p)));
         Point v(c.p, pr);
@@ -253,9 +253,6 @@ bool is_in(MyPolygon &pol, Point &p){
 
 
 
-
-
-
 // useless function
 bool is_realy_intersects(Segment &f, Segment &s){
     if (is_intersects(f, s)){
@@ -272,7 +269,7 @@ bool is_ear(MyPolygon &p, int x){ // O(n)
 }
 // another useless function
 
-bool is_good(MyPolygon &p, Segment &s){
+bool is_good(MyPolygon p, Segment s){
     return !is_intersects(s, p) && is_in(p, Point(s.b, s.e) / 2 + s.b);
 }
 

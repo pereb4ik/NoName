@@ -1,4 +1,4 @@
-#include "InitOpenGL.h";
+#include "InitOpenGL.h"
 
 void recalcTimes(){
     global_time = ((double)clock() / CLOCKS_PER_SEC) - first_time;

@@ -67,8 +67,7 @@ public:
     }
 
     void rot(const Angle &agl, const Point &p = Point()) {
-        Matrix t = get_rot_matr(agl.get_as_rad(), p);
-        *this->transformation *= t;
+        *this->transformation *= get_rot_matr(agl.get_as_rad(), p);
 
         /*for (int i = 0; i < this->size(); i++){
             //ans.add_vert(this->verts[0] + this->origin_point + Point(this->verts[0] + this->origin_point, this->verts[i]).get_turned_by_angle(agl));
@@ -77,7 +76,7 @@ public:
     }
 
     void move(const Point &v) {
-        *this->transformation = (*this->transformation) * get_move_matr(v);
+        *this->transformation *= get_move_matr(v);
         /*this->rct.move(v);
         for (int i = 0; i < this->size(); i++){
             this->verts[i] += v;

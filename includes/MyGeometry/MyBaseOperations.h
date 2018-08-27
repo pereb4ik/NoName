@@ -1,4 +1,4 @@
-#include "../OpenGLEventsHandler.h";
+#include "../OpenGLEventsHandler.h"
 
 template < typename T >
 T sqr(const T &x){
