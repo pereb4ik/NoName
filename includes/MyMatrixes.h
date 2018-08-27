@@ -1,28 +1,28 @@
 #include "MyGeometry/MyPoint.h"
 
 
-class Matrix{
+class Matrix {
 public:
-    vector < vector < double > > matr;
+    vector<vector<double> > matr;
     int n, m;
 
-    Matrix (){}
+    Matrix() {}
 
-    Matrix (const vector < vector < double > > &mtr){
+    Matrix(const vector<vector<double> > &mtr) {
         this->matr = mtr;
         this->n = mtr.size();
         this->m = mtr[0].size();
     }
 
-    Matrix (const vector < double > &mtr){
+    Matrix(const vector<double> &mtr) {
         this->matr.clear();
         this->matr.push_back(mtr);
         this->n = 1;
         this->m = mtr.size();
     }
 
-    Matrix (const Point &p){
-        vector < double > tmp;
+    Matrix(const Point &p) {
+        vector<double> tmp;
         tmp.push_back(p.x);
         tmp.push_back(p.y);
         this->matr.clear();
@@ -31,7 +31,7 @@ public:
         this->m = tmp.size();
     }
 
-    vector < double > &operator [](const int &i) {
+    vector<double> &operator[](const int &i) {
         if (i < 0 || i >= n) {
             cout << "ERROR, see: inline vector < double > & Matrix::operator [](int i) in MyMatrixes.h";
             system("pause");
@@ -40,16 +40,16 @@ public:
         return matr[i];
     }
 
-    Point get_as_point(){
+    Point get_as_point() {
         return Point(matr[0][0], matr[0][1]);
     }
 
-    vector < double > get_as_vector(){
+    vector<double> get_as_vector() {
         return matr[0];
     }
 };
 
-Matrix operator * (Matrix &m1, Matrix &m2){
+Matrix operator*(Matrix &m1, Matrix &m2) {
     if (m1.m != m2.n) {
         return Matrix();
         cout << "ERROR, see: friend Matrix operator * (const Matrix &m1, const Matrix &m2) in MyMatrixes.h";
@@ -57,14 +57,14 @@ Matrix operator * (Matrix &m1, Matrix &m2){
         exit(1);
     }
     Matrix ans(
-            vector < vector < double > > (
-                m1.n, 
-                vector < double > (m2.m, 0)
+            vector<vector<double> >(
+                    m1.n,
+                    vector<double>(m2.m, 0)
             )
-        );
-    for (int i = 0; i < m1.n; i++){
-        for (int j = 0; j < m2.m; j++){
-            for (int k = 0; k < m1.m; k++){
+    );
+    for (int i = 0; i < m1.n; i++) {
+        for (int j = 0; j < m2.m; j++) {
+            for (int k = 0; k < m1.m; k++) {
                 ans[i][j] += m1[i][k] * m2[k][j];
             }
         }
@@ -72,19 +72,19 @@ Matrix operator * (Matrix &m1, Matrix &m2){
     return ans;
 }
 
-Matrix &operator *= (Matrix &a, Matrix &b){
+Matrix &operator*=(Matrix &a, Matrix &b) {
     return a = a * b;
 }
 
-Matrix get_ide_matr(const int &n){
-    vector < vector < double > > mtr(n, vector < double > (n, 0));
-    for (int i = 0; i < n; i++){
+Matrix get_ide_matr(const int &n) {
+    vector<vector<double> > mtr(n, vector<double>(n, 0));
+    for (int i = 0; i < n; i++) {
         mtr[i][i] = 1;
     }
     return Matrix(mtr);
 }
 
-Matrix get_move_matr(const Point &p = Point()){
+Matrix get_move_matr(const Point &p = Point()) {
     Matrix ans = get_ide_matr(3);
     ans[2][0] = p.x;
     ans[2][1] = p.y;
@@ -100,7 +100,7 @@ Matrix get_move_matr(const Point &p = Point()){
     return Matrix(mtr);
 }*/
 
-Matrix get_rot_matr(const double &x, const Point &p = Point()){
+Matrix get_rot_matr(const double &x, const Point &p = Point()) {
     Matrix mtr = get_move_matr(p);
     mtr[0][0] = cos(x);
     mtr[0][1] = sin(x);
@@ -111,11 +111,11 @@ Matrix get_rot_matr(const double &x, const Point &p = Point()){
     return Matrix(mtr);
 }
 
-Matrix get_rot_matr(const Point &p, const double &x){
+Matrix get_rot_matr(const Point &p, const double &x) {
     return get_rot_matr(x, p);
 }
 
-Matrix get_hom_matr(const double &x, const Point &p = Point()){
+Matrix get_hom_matr(const double &x, const Point &p = Point()) {
     Matrix ans = get_move_matr(p);
     ans[0][0] = x;
     ans[1][1] = x;
@@ -124,12 +124,12 @@ Matrix get_hom_matr(const double &x, const Point &p = Point()){
     return ans;
 }
 
-Matrix get_hom_matr(const Point &p, const double &x){
+Matrix get_hom_matr(const Point &p, const double &x) {
     return get_hom_matr(x, p);
 }
 
-Point apply_transformation(const Point &p, Matrix *m){
-    vector < double > tmp(3, 1);
+Point apply_transformation(const Point &p, Matrix *m) {
+    vector<double> tmp(3, 1);
     tmp[0] = p.x;
     tmp[1] = p.y;
     Matrix tmpm = Matrix(tmp);
