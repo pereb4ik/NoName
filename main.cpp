@@ -96,13 +96,10 @@ void set_scene_settings(){
 
 int main(int argc, char **argv) {
 
-    // инициализация GLUT и создание окна
     initWindow(&argc, argv);
 
-    // регистрация
     funcRegistration();
 
-    //glEnable(GL_DEPTH_TEST);
 
     set_scene_settings();
 
@@ -110,9 +107,6 @@ int main(int argc, char **argv) {
 
     debug_output();
 
-
-
-    // главный цикл
     glutMainLoop();
 
     return 1;
