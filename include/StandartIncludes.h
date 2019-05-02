@@ -19,7 +19,14 @@
 #include <ctime>
 
 //#define _WCHAR_T_DEFINED
-#include <GLUT/glut.h>
+#if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+	#include <GL/glut.h>
+#endif
+
+#if defined(__APPLE__)
+	#include <GLUT/glut.h>
+#endif
+
 
 using namespace std;
 
