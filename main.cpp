@@ -1,112 +1,112 @@
-#include "includes/Objects/objects.h"
+#include "includes.h"
 
-// every frame
-void every_frame(void) {
-
-    recalcTimes();
-
-    //cout << "FPS : " << 1 / delta_time << "\n";
-
-    // every_frame
-    for (int i = 0; i < objs->size(); i++) {
-        (*objs)[i]->every_frame();
-    }
-    // every_frame
-
-    // apply_acceleration
-    for (int i = 0; i < objs->size(); i++) {
-        if (!(*objs)[i]->is_static) {
-            (*objs)[i]->apply_acceleration(delta_time);
-        }
-    }
-    // apply_acceleration
-
-    // apply_speed
-    for (int i = 0; i < objs->size(); i++) {
-        (*objs)[i]->apply_speed(delta_time);
-    }
-    // apply_speed
-
-    main_draw();
-}
-
-void main_draw() {
-    glClearColor(0, 0, 0, 255);
+void display(){
+    glClearColor(255, 255, 255, 255);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (int i = 0; i < objs->size(); i++) {
-        if ((*objs)[i]->need_draw) {
-            (*objs)[i]->draw();
-        }
+    globalDrawingSegmentVector.clear();
+
+    for (map < string, Object* > :: iterator it = Object :: obj.begin(); it != Object :: obj.end(); it++){
+        it->second->draw();
     }
+
+
+    glPointSize(10);
+    glBegin(GL_POINTS);
+    add_gl_point(scrLB + scrx * WIDTH / 2 + scry * HEIGHT / 2);
+    glEnd();
+
+    drawSegments(scrLB + scrx * WIDTH / 2 + scry * HEIGHT / 2);    
 
     glutSwapBuffers();
 }
 
-void add_pol() {
-    MyPolygon pol;
-    pol.add_vert(Point(600, 300));
-    pol.add_vert(Point(610, 410));
-    pol.add_vert(Point(320, 340));
-    pol.add_vert(Point(260, 300));
-    pol.add_vert(Point(500, 250));
-    for (int i = 0; i < pol.triangulation.size(); i++) {
-        cout << pol.triangulation[i] << "\n";
-        cout << pol.triangulation[i].mi << "\n";
-        cout << pol.triangulation[i].ma << "\n";
-        cout << "\n";
+void every_frame(){
+
+    if (keysPressed.count("esc") || keysPressed.count("F1")){
+        exit(0);
     }
-}
 
-void add_player() {
-    Player *player = new Player("player");
-    player->is_static = false;
-}
-
-void add_wall() {
-    Wall *wall = new Wall("wall");
-    wall->colision_mask.add(MyPolygon());
-    wall->colision_mask.pols.back().add_vert(Point(0, 50));
-    wall->colision_mask.pols.back().add_vert(Point(1000, 50));
-    wall->colision_mask.pols.back().add_vert(Point(1000, -50));
-    wall->colision_mask.pols.back().add_vert(Point(0, -50));
-}
-
-void add_objects() {
-    add_pol();
-    add_player();
-    add_wall();
-}
-
-void debug_output() {
-    get_obj("player")->write_debug_information();
-
-    cout << objs->size() << "\n";
-    for (int i = 0; i < objs->size(); i++) {
-        cout << (*objs)[i]->type << "\n";
+    recalcTimes();
+    
+    for (map < string, Object* > :: iterator it = Object :: obj.begin(); it != Object :: obj.end(); it++){
+        it->second->every_frame();
     }
+
+    if (keysPressed.count("a")){
+        scrLB += scrx * -delta_time * scrollSpeed;
+    }
+
+    if (keysPressed.count("d")){
+        scrLB += scrx * delta_time * scrollSpeed;
+    }
+
+    if (keysPressed.count("w")){
+        scrLB += scrx.ort() * delta_time * scrollSpeed;
+    }
+
+    if (keysPressed.count("s")){
+        scrLB += scrx.ort() * -delta_time * scrollSpeed;
+    }
+
+    /*if (keysPressed.count("q")){
+        scrLB = apply_transformation(scrLB, get_rot_matr(scrTurnSpeed * delta_time, getScrCenter()));
+        scrx = scrx.rot(scrTurnSpeed * delta_time);
+        scry = scry.rot(scrTurnSpeed * delta_time);
+    }
+
+    if (keysPressed.count("e")){
+        scrLB = apply_transformation(scrLB, get_rot_matr(scrTurnSpeed * -delta_time, getScrCenter()));
+        scrx = scrx.rot(scrTurnSpeed * -delta_time);
+        scry = scry.rot(scrTurnSpeed * -delta_time);
+    }*/
+
+    /*if (mouseLeft){
+        Point tmp_center = scrLB + scry * HEIGHT / 2 + scrx * WIDTH / 2;
+        scry = scrx * (cur / cur.len()).x + scrx.ort() * (cur / cur.len()).y;
+        scrLB = tmp_center - (scry * HEIGHT / 2 + scrx * WIDTH / 2);
+    }*/
+
+    display();
 }
 
-void set_scene_settings() {
-    Camera.need_draw = false;
-    origin->need_draw = false;
-    colision_types["Player"]["Wall"] = "block";
-    colision_types["Wall"]["Player"] = "block";
+void cursor_constructor(){
+    Cursor *cursor = new Cursor("cursor");
+}
+
+void another_triangle_construtor(){
+   RotatingTriangle *rotating_triangle = new RotatingTriangle("rotating_triangle");
+}
+
+void add_triangle(){
+    RisingTriangle *trang = new RisingTriangle("trang");
+}
+
+void add_arrow(){
+    Arrow *arrow = new Arrow("arrow");
+}
+
+void add_loaded_polygon(){
+    LoadedPolygon *pol = new LoadedPolygon("loadedPolygon");
+    //pol->loadFromFile("Polygons/PolygonDataFile.polygon");
+}
+
+void pre_settings(){
+    add_triangle();
+    cursor_constructor();
+    another_triangle_construtor();
+    //add_arrow();
+    add_loaded_polygon();
+
 }
 
 int main(int argc, char **argv) {
+
+    pre_settings();
 
     initWindow(&argc, argv);
 
     funcRegistration();
 
-    set_scene_settings();
-
-    add_objects();
-
-    debug_output();
-
     glutMainLoop();
-
-    return 1;
 }
