@@ -1,15 +1,23 @@
-cmake_minimum_required(VERSION 3.13.4)
-project(NewNoName VERSION 0.01)
+cmake_minimum_required(VERSION 3.0)
+project(NewNoName VERSION 0.01 LANGUAGES CXX)
 
 set(INC "include")
 set(GEOM "${INC}/MyGeometry")
-##set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 
 set(OpenGL_USE_STATIC_LIBS OFF)
 set(GLUT_USE_STATIC_LIBS OFF)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+
+message("GLUTlib: ${GLUT_LIBRARY}")
+message("OpenGLlib: ${OPENGL_LIBRARIES}")
+message("dirs: ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS}")
+
+include_directories("${INC}/" "${GEOM}/" "${INC}/Objects/")
+
+include_directories("WindowsBuild/")
 
 add_executable(engine
 	main.cpp
@@ -34,6 +42,4 @@ add_executable(engine
 	include/Objects/objects.cpp
 )
 
-include_directories("${OpenGL_INCLUDE_DIRS}/" "${GLUT_INCLUDE_DIRS}/" "${INC}/" "${GEOM}/" "${INC}/Objects/")
-
-target_link_libraries(engine ${GLUT_LIBRARIES} ${OpenGL_LIBRARIES})
+target_link_libraries(engine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
