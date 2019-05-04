@@ -9,3 +9,5 @@ g++ -I include/ -I include/GL/ -I include/MyGeometry/ -I include/Objects/ main.c
 Unix (Linux/Mac):
 
 cd build <br>cmake .. <br>make install
+
+(btw, you can use<br>make -j <numofthreads> install<br>for multithreading) 
