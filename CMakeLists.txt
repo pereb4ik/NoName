@@ -19,8 +19,6 @@ message("dirs: ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS}")
 
 include_directories("${INC}/" "${GEOM}/" "${INC}/Objects/")
 
-#include_directories("WindowsBuild/")
-
 add_executable(engine
 	main.cpp
 	${INC}/StandartIncludes.cpp

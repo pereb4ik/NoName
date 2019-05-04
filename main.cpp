@@ -1,4 +1,4 @@
-#include "includes.h"
+#include "include/includes.h"
 
 void display(){
     glClearColor(255, 255, 255, 255);
