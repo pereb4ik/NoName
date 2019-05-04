@@ -3,6 +3,8 @@ project(NewNoName VERSION 0.01 LANGUAGES CXX)
 
 set(INC "include")
 set(GEOM "${INC}/MyGeometry")
+set(OBJ "${INC}/Objects")
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 
 set(OpenGL_USE_STATIC_LIBS OFF)
@@ -17,15 +19,15 @@ message("dirs: ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS}")
 
 include_directories("${INC}/" "${GEOM}/" "${INC}/Objects/")
 
-include_directories("WindowsBuild/")
+#include_directories("WindowsBuild/")
 
 add_executable(engine
 	main.cpp
-	include/StandartIncludes.cpp
-	include/InitOpenGL.cpp
-	include/OpenGLEventHandler.cpp
-	include/MyBaseOperations.cpp
-	include/DrawingFunctions.cpp
+	${INC}/StandartIncludes.cpp
+	${INC}/InitOpenGL.cpp
+	${INC}/OpenGLEventHandler.cpp
+	${INC}/MyBaseOperations.cpp
+	${INC}/DrawingFunctions.cpp
 	${GEOM}/MyMatrixes.cpp
 	${GEOM}/MyAngle.cpp
 	${GEOM}/MyFlatAngle.cpp
@@ -38,8 +40,12 @@ add_executable(engine
 	${GEOM}/MyCircle.cpp
 	${GEOM}/MyGeometry.cpp
 	${GEOM}/MyComplexShapes.cpp
-	include/Objects/MyObject.cpp
-	include/Objects/objects.cpp
+	${OBJ}/MyObject.cpp
+	${OBJ}/objects.cpp
 )
 
 target_link_libraries(engine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
+message("source dir: ${CMAKE_SOURCE_DIR}")
+
+install(TARGETS engine DESTINATION ${CMAKE_SOURCE_DIR}/WindowsBuild)
