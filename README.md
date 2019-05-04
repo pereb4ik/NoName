@@ -9,5 +9,7 @@ g++ -I include/ -I include/GL/ -I include/MyGeometry/ -I include/Objects/ main.c
 Unix (Linux/Mac):
 
 cd build
+
 cmake ..
+
 make install
