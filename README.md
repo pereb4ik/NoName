@@ -7,7 +7,9 @@ g++ -I include/ -I include/GL/ -I include/MyGeometry/ -I include/Objects/ main.c
 # Build
 
 Unix (Linux/Mac):
-
-cd build <br>cmake .. <br>make install
-
+```
+cd build
+cmake ..
+make install
+```
 (btw, you can use<br>make -j *numOfThreads* install<br>for multithreading) 
